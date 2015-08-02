@@ -1,6 +1,7 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, make_response, request
 import csv
+import time
 
 app = Flask(__name__)
 
@@ -61,7 +62,7 @@ def create_marca():
         'grupo': request.json.get('grupo', ""),
         'infoAdd': request.json.get('infoAdd', "")
     }
-    marcas.append(marca)
+    #marcas.append(marca)
     f = open('bd.csv', 'a')
     try:
 	writer = csv.writer(f)
@@ -77,7 +78,8 @@ def create_marca():
         request.json.get('temperatura', ""),
         request.json.get('humedad', ""),
         request.json.get('grupo', ""),
-        request.json.get('infoAdd', "")
+        request.json.get('infoAdd', ""),
+	time.strftime("%c")
 	) )
     finally:
     	f.close()
@@ -88,4 +90,4 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    app.run(host= '157.253.195.165')
+    app.run(host= '157.253.195.165',port=80)
